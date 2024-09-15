@@ -42,14 +42,15 @@ nullptr
 , // 5 SGML/DTD
 "doctype DOCTYPE PUBLIC SYSTEM "
 "ELEMENT ATTLIST ENTITY "
-"ANY CDATA EMPT ENTITIES ID IDREF IDREFS NDATA NOTATION NMTOKEN NMTOKENS "
+"ANY CDATA EMPT ENTITIES ID IDREF IDREFS IGNORE INCLUDE NDATA NOTATION NMTOKEN NMTOKENS "
 "IMPLIED FIXED PCDATA REQUIRED "
 
 "SGML "
 
 , // 6 Attribute
 // Attribute
-"abbr accept accept-charset accesskey action allow allowfullscreen allowpaymentrequest alt as async autocapitalize autocomplete autofocus autoplay "
+"abbr accept accept-charset accesskey action allow allowfullscreen allowpaymentrequest alt as async "
+"autocapitalize autocomplete autocorrect autofocus autoplay "
 "blocking border challenge charset checked cite class cols colspan command content "
 "contenteditable contextmenu controls coords crossorigin data datetime decoding default "
 "defer dir dirname disabled download draggable dropzone enctype enterkeyhint fetchpriority for form formaction "

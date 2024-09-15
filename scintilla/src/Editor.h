@@ -363,6 +363,7 @@ protected:	// ScintillaBase subclass needs access to much of Editor
 	};
 	void MultipleSelectAdd(AddNumber addNumber);
 	bool RangeContainsProtected(Sci::Position start, Sci::Position end) const noexcept;
+	bool RangeContainsProtected(const SelectionRange &range) const noexcept;
 	bool SelectionContainsProtected() const noexcept;
 	Sci::Position MovePositionOutsideChar(Sci::Position pos, Sci::Position moveDir, bool checkLineEnd = true) const noexcept;
 	SelectionPosition MovePositionOutsideChar(SelectionPosition pos, Sci::Position moveDir, bool checkLineEnd = true) const noexcept;
@@ -433,6 +434,7 @@ protected:	// ScintillaBase subclass needs access to much of Editor
 	SelectionPosition RealizeVirtualSpace(SelectionPosition position);
 	void AddChar(char ch);
 	virtual void InsertCharacter(std::string_view sv, Scintilla::CharacterSource charSource);
+	void ClearSelectionRange(SelectionRange &range);
 	void ClearBeforeTentativeStart();
 	void InsertPaste(const char *text, Sci::Position len);
 	enum class PasteShape {
@@ -446,6 +448,7 @@ protected:	// ScintillaBase subclass needs access to much of Editor
 	void PasteRectangular(SelectionPosition pos, const char *ptr, Sci::Position len);
 	virtual void Copy(bool asBinary) const = 0;
 	void CopyAllowLine() const;
+	void CutAllowLine();
 	virtual bool CanPaste() noexcept;
 	virtual void Paste(bool asBinary) = 0;
 	void Clear();
@@ -497,6 +500,7 @@ protected:	// ScintillaBase subclass needs access to much of Editor
 	};
 	virtual std::string CaseMapString(const std::string &s, CaseMapping caseMapping) const;
 	void ChangeCaseOfSelection(CaseMapping caseMapping);
+	void LineDelete();
 	void LineTranspose();
 	void LineReverse();
 	void Duplicate(bool forLine);
@@ -519,7 +523,7 @@ protected:	// ScintillaBase subclass needs access to much of Editor
 	virtual int KeyDefault(Scintilla::Keys /* key */, Scintilla::KeyMod /*modifiers*/) noexcept;
 	int KeyDownWithModifiers(Scintilla::Keys key, Scintilla::KeyMod modifiers, bool *consumed);
 
-	void Indent(bool forwards);
+	void Indent(bool forwards, bool lineIndent);
 
 	virtual std::unique_ptr<CaseFolder> CaseFolderForEncoding();
 	Sci::Position FindTextFull(Scintilla::uptr_t wParam, Scintilla::sptr_t lParam);
@@ -530,6 +534,7 @@ protected:	// ScintillaBase subclass needs access to much of Editor
 
 	virtual void CopyToClipboard(const SelectionText &selectedText) const = 0;
 	std::string RangeText(Sci::Position start, Sci::Position end) const;
+	bool CopyLineRange(SelectionText &ss, bool allowProtected = true) const;
 	void CopySelectionRange(SelectionText &ss, bool allowLineCopy = false) const;
 	void CopyRangeToClipboard(Sci::Position start, Sci::Position end, bool lineCopy = false) const;
 	void CopyText(size_t length, const char *text) const;

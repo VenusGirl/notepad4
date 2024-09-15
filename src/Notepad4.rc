@@ -614,7 +614,7 @@ BEGIN
 				MENUITEM "&System Language",		IDM_LANG_USER_DEFAULT
 				MENUITEM "Deutsch",					IDM_LANG_GERMAN
 				MENUITEM "English",					IDM_LANG_ENGLISH_US
-				MENUITEM "Français (France)",		IDM_LANG_FRENCH_FRANCE
+				MENUITEM "Français",				IDM_LANG_FRENCH_FRANCE
 				MENUITEM "Italiano",				IDM_LANG_ITALIAN
 				MENUITEM "Português (Brasil)",		IDM_LANG_PORTUGUESE_BRAZIL
 				MENUITEM "日本語",					IDM_LANG_JAPANESE
@@ -1066,7 +1066,7 @@ BEGIN
     CONTROL         "",IDC_SCI_PAGE_LINK,"SysLink",WS_TABSTOP,45,128,94,10
 END
 
-IDD_FIND DIALOGEX 0, 0, 290, 112
+IDD_FIND DIALOGEX 0, 0, 290, 124
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_NOFAILCREATE | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Find Text"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
@@ -1077,7 +1077,8 @@ BEGIN
     AUTOCHECKBOX    "Match &whole word only",IDC_FINDWORD,7,49,110,10,WS_TABSTOP
     AUTOCHECKBOX    "Match &beginning of word only",IDC_FINDSTART,7,61,124,10,WS_TABSTOP
     AUTOCHECKBOX    "Regular &expression search",IDC_FINDREGEXP,7,73,112,10,WS_TABSTOP
-    AUTOCHECKBOX    "&Transform backslashes",IDC_FINDTRANSFORMBS,7,85,95,10,WS_TABSTOP
+    AUTOCHECKBOX    "Regex dot (.) match newline",IDC_FIND_DOTALL,7,85,124,10,WS_TABSTOP
+    AUTOCHECKBOX    "&Transform backslashes",IDC_FINDTRANSFORMBS,7,97,95,10,WS_TABSTOP
     AUTOCHECKBOX    "&Don't wrap around",IDC_NOWRAP,132,37,79,10,WS_TABSTOP
     AUTOCHECKBOX    "C&lose after find",IDC_FINDCLOSE,132,49,77,10,WS_TABSTOP
     AUTOCHECKBOX    "W&ildcard search",IDC_WILDCARDSEARCH,132,61,74,10,WS_TABSTOP
@@ -1086,19 +1087,20 @@ BEGIN
     PUSHBUTTON      "&Find All",IDC_FINDALL,223,41,60,14
     PUSHBUTTON      "&Select All",IDC_REPLACEALL,223,58,60,14
     CONTROL         "<a>(?)</a>",IDC_REGEXPHELP,"SysLink",0x0,118,73,12,10
-    CONTROL         "<a>(?)</a>",IDC_BACKSLASHHELP,"SysLink",0x0,118,85,12,10
+    CONTROL         "<a>(?)</a>",IDC_BACKSLASHHELP,"SysLink",0x0,118,97,12,10
     CONTROL         "<a>(?)</a>",IDC_WILDCARDHELP,"SysLink",0x0,208,61,12,10
     CONTROL         "<a>Clear History</a>",IDC_CLEAR_FIND,"SysLink",WS_TABSTOP,173,7,48,10
-    AUTOCHECKBOX    "Transparent mode on losing focus",IDC_TRANSPARENT,7,96,124,10,WS_TABSTOP
+    AUTOCHECKBOX    "Transparent on losing focus",IDC_TRANSPARENT,7,108,124,10,WS_TABSTOP
     AUTOCHECKBOX    "Boo&kmark matched line",IDC_FINDALLBOOKMARK,132,73,90,10,WS_TABSTOP
-    AUTOCHECKBOX    "Use &monospaced font",IDC_USEMONOSPACEDFONT,132,85,90,10,WS_TABSTOP
-    CONTROL         "<a>Goto Replace (Ctrl+H)</a>",IDC_TOGGLEFINDREPLACE, "SysLink",WS_TABSTOP,140,97,80,10
-    CONTROL         "<a>Save Position</a>",IDC_SAVEPOSITION,"SysLink",WS_TABSTOP,223,85,60,10
-    CONTROL         "<a>Reset Position</a>",IDC_RESETPOSITION,"SysLink",WS_TABSTOP,223,96,60,10
-    SCROLLBAR       IDC_RESIZEGRIP2,230,96,10,10
+    AUTOCHECKBOX    "Use Boost Regex",IDC_FIND_CXXREGEX,132,85,90,10,WS_TABSTOP
+    AUTOCHECKBOX    "Use &monospaced font",IDC_USEMONOSPACEDFONT,132,97,90,10,WS_TABSTOP
+    CONTROL         "<a>Goto Replace (Ctrl+H)</a>",IDC_TOGGLEFINDREPLACE, "SysLink",WS_TABSTOP,140,109,80,10
+    CONTROL         "<a>Save Position</a>",IDC_SAVEPOSITION,"SysLink",WS_TABSTOP,223,97,60,10
+    CONTROL         "<a>Reset Position</a>",IDC_RESETPOSITION,"SysLink",WS_TABSTOP,223,108,60,10
+    SCROLLBAR       IDC_RESIZEGRIP2,230,108,10,10
 END
 
-IDD_REPLACE DIALOGEX 0, 0, 290, 142
+IDD_REPLACE DIALOGEX 0, 0, 290, 154
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_NOFAILCREATE | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Replace Text"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
@@ -1111,7 +1113,8 @@ BEGIN
     AUTOCHECKBOX    "Match &whole word only",IDC_FINDWORD,7,78,105,10,WS_TABSTOP
     AUTOCHECKBOX    "Match &beginning of word only",IDC_FINDSTART,7,90,124,10,WS_TABSTOP
     AUTOCHECKBOX    "Regular &expression search",IDC_FINDREGEXP,7,102,112,10,WS_TABSTOP
-    AUTOCHECKBOX    "&Transform backslashes",IDC_FINDTRANSFORMBS,7,114,97,10,WS_TABSTOP
+    AUTOCHECKBOX    "Regex dot (.) match newline",IDC_FIND_DOTALL,7,114,124,10,WS_TABSTOP
+    AUTOCHECKBOX    "&Transform backslashes",IDC_FINDTRANSFORMBS,7,126,97,10,WS_TABSTOP
     AUTOCHECKBOX    "&Don't wrap around",IDC_NOWRAP,132,66,79,10,WS_TABSTOP
     AUTOCHECKBOX    "C&lose after replace",IDC_FINDCLOSE,132,78,90,10,WS_TABSTOP
     AUTOCHECKBOX    "W&ildcard search",IDC_WILDCARDSEARCH,132,90,74,10,WS_TABSTOP
@@ -1122,17 +1125,18 @@ BEGIN
     PUSHBUTTON      "Replace &All",IDC_REPLACEALL,223,75,60,14
     PUSHBUTTON      "In &Selection",IDC_REPLACEINSEL,223,92,60,14
     CONTROL         "<a>(?)</a>",IDC_REGEXPHELP,"SysLink",0x0,118,102,12,10
-    CONTROL         "<a>(?)</a>",IDC_BACKSLASHHELP,"SysLink",0x0,118,114,12,10
+    CONTROL         "<a>(?)</a>",IDC_BACKSLASHHELP,"SysLink",0x0,118,126,12,10
     CONTROL         "<a>(?)</a>",IDC_WILDCARDHELP,"SysLink",0x0,208,90,12,10
     CONTROL         "<a>Clear History</a>",IDC_CLEAR_FIND,"SysLink",WS_TABSTOP,173,6,48,10
     CONTROL         "<a>Clear History</a>",IDC_CLEAR_REPLACE,"SysLink",WS_TABSTOP,173,35,48,10
-    AUTOCHECKBOX    "Transparent mode on losing focus",IDC_TRANSPARENT,7,126,124,10,WS_TABSTOP
+    AUTOCHECKBOX    "Transparent on losing focus",IDC_TRANSPARENT,7,138,124,10,WS_TABSTOP
     AUTOCHECKBOX    "Boo&kmark matched line",IDC_FINDALLBOOKMARK,132,102,90,10,WS_TABSTOP
-    AUTOCHECKBOX    "Use &monospaced font",IDC_USEMONOSPACEDFONT,132,114,90,10,WS_TABSTOP
-    CONTROL         "<a>Goto Find (Ctrl+F)</a>",IDC_TOGGLEFINDREPLACE, "SysLink",WS_TABSTOP,140,127,80,10
-    CONTROL         "<a>Save Position</a>",IDC_SAVEPOSITION,"SysLink",WS_TABSTOP,223,114,60,10
-    CONTROL         "<a>Reset Position</a>",IDC_RESETPOSITION,"SysLink",WS_TABSTOP,223,126,60,10
-    SCROLLBAR       IDC_RESIZEGRIP2,230,126,10,10
+    AUTOCHECKBOX    "Use Boost Regex",IDC_FIND_CXXREGEX,132,114,90,10,WS_TABSTOP
+    AUTOCHECKBOX    "Use &monospaced font",IDC_USEMONOSPACEDFONT,132,126,90,10,WS_TABSTOP
+    CONTROL         "<a>Goto Find (Ctrl+F)</a>",IDC_TOGGLEFINDREPLACE, "SysLink",WS_TABSTOP,140,139,80,10
+    CONTROL         "<a>Save Position</a>",IDC_SAVEPOSITION,"SysLink",WS_TABSTOP,223,126,60,10
+    CONTROL         "<a>Reset Position</a>",IDC_RESETPOSITION,"SysLink",WS_TABSTOP,223,138,60,10
+    SCROLLBAR       IDC_RESIZEGRIP2,230,138,10,10
 END
 
 IDD_RUN DIALOGEX 0, 0, 234, 86
@@ -1511,7 +1515,7 @@ CAPTION "Notepad4"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     LTEXT           "",IDC_INFOBOXRECT,0,0,244,49
-    ICON            IDR_MAINWND,IDC_INFOBOXICON,7,7,20,20
+    ICON            IDI_INFORMATION,IDC_INFOBOXICON,7,7,20,20
     LTEXT           "",IDC_INFOBOXTEXT,35,7,202,42
     DEFPUSHBUTTON   "OK",IDOK,187,53,50,14
     AUTOCHECKBOX    "&Don't show this message again.",IDC_INFOBOXCHECK,7,55,120,10,WS_TABSTOP
@@ -1523,7 +1527,7 @@ CAPTION "Notepad4"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     LTEXT           "",IDC_INFOBOXRECT,0,0,244,49
-    ICON            IDR_MAINWND,IDC_INFOBOXICON,7,7,20,20
+    ICON            IDI_INFORMATION,IDC_INFOBOXICON,7,7,20,20
     LTEXT           "",IDC_INFOBOXTEXT,35,7,202,42
     PUSHBUTTON      "&Yes",IDYES,131,54,50,14
     PUSHBUTTON      "&No",IDNO,187,54,50,14
@@ -1556,7 +1560,7 @@ CAPTION "Notepad4"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     LTEXT           "",IDC_INFOBOXRECT,0,0,244,49
-    ICON            IDR_MAINWND,IDC_INFOBOXICON,7,7,20,20
+    ICON            IDI_INFORMATION,IDC_INFOBOXICON,7,7,20,20
     LTEXT           "",IDC_INFOBOXTEXT,35,7,202,42
     DEFPUSHBUTTON   "OK",IDOK,131,53,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,187,53,50,14
@@ -1616,8 +1620,8 @@ BEGIN
     EDITTEXT        IDC_AUTOC_MIN_NUMBER_LENGTH,166,48,50,12,ES_NUMBER | WS_TABSTOP
     AUTOCHECKBOX    "Scanning words in current document for",IDC_AUTOC_SCAN_DOCUMENT_WORDS,14,68,150,10,WS_TABSTOP
     EDITTEXT        IDC_AUTOC_SCAN_WORDS_TIMEOUT,166,64,50,12,WS_TABSTOP
-    AUTOCHECKBOX    "Only trigger auto completion in English IME mode.",IDC_AUTOC_ENGLISH_IME_ONLY,14,80,180,10,WS_TABSTOP
-    AUTOCHECKBOX    "Auto completion is case insensitive.",IDC_AUTOC_CASE_INSENSITIVE,14,92,180,10,WS_TABSTOP
+    AUTOCHECKBOX    "Only use words in current document.",IDC_AUTOC_ONLY_DOCUMENT_WORDS,14,80,180,10,WS_TABSTOP
+    AUTOCHECKBOX    "Only trigger auto completion in English IME mode.",IDC_AUTOC_ENGLISH_IME_ONLY,14,92,180,10,WS_TABSTOP
 
     GROUPBOX        "Auto complete word inside:",IDC_STATIC,7,111,218,26
     AUTOCHECKBOX    "Comment",IDC_AUTO_COMPLETE_INSIDE_COMMONT,14,123,65,10,WS_TABSTOP
@@ -1656,7 +1660,7 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,399,174,50,14
 END
 
-IDD_AUTOSAVE DIALOGEX 0, 0, 184, 93
+IDD_AUTOSAVE DIALOGEX 0, 0, 184, 105
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "AutoSave Settings"
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
@@ -1667,9 +1671,10 @@ BEGIN
     AUTOCHECKBOX    "Save backup on system suspend.",IDC_AUTOSAVE_SUSPEND,7,31,170,10,WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX    "Save backup on system shutdown.",IDC_AUTOSAVE_SHUTDOWN,7,43,170,10,WS_TABSTOP
     AUTOCHECKBOX    "Manually delete backups.",IDC_AUTOSAVE_MANUALLYDELETE,7,55,170,10,WS_TABSTOP
-    PUSHBUTTON      "Open Folder",IDC_AUTOSAVE_OPENFOLDER,7,72,60,14
-    DEFPUSHBUTTON   "OK",IDOK,71,72,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,127,72,50,14
+    AUTOCHECKBOX    "Directly overwrite current file.",IDC_AUTOSAVE_OVERWRITECURRENT,7,67,170,10,WS_TABSTOP
+    PUSHBUTTON      "Open Folder",IDC_AUTOSAVE_OPENFOLDER,7,84,60,14
+    DEFPUSHBUTTON   "OK",IDOK,71,84,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,127,84,50,14
 END
 
 IDD_CSV_OPTIONS DIALOGEX 0, 0, 220, 118
@@ -1722,6 +1727,7 @@ BEGIN
     IDS_READONLY_FILE       "(Read Only File)"
     IDS_READONLY_MODE       "(Read Only Mode)"
     IDS_STATUSITEM_FORMAT   "Ln %s / %s \nCol %s / %s \nCh %s / %s \nSel %s / %s \nSelLn %s \nFnd %s "
+    IDS_ZERO_LENGTH_MATCH   "^ Zero-Length Match"
     IDS_LOADFILE            "Loading ""%s""..."
     IDS_SAVEFILE            "Saving ""%s""..."
     IDS_PRINTFILE           "Printing page %s..."
@@ -1747,7 +1753,7 @@ BEGIN
 \\xHH\tHexadecimal Value\n\
 \\\\\tBackslash"
 
-	IDS_REGEXPHELP			"RegExp Syntax (Single Lines Only)\n\n\
+	IDS_REGEXPHELP			"Common RegExp Syntax\n\n\
 .\tAny character\n\
 ^\tStart of a line\n\
 $\tEnd of a line\n\
@@ -1768,7 +1774,11 @@ $\tEnd of a line\n\
 *? or +?\tNon-greedy matching of quantifiers ""?"" and ""+""\n\
 (\tStart of a region\n\
 )\tEnd of a region\n\
-\\n\tRefers to a region when replacing (n is 1-9)"
+\\n\tRefers to a region when replacing (n is 1-9)\n\n\
+Boost Perl Regex Syntax:\n\
+a|b\tMatches either a or b\n\
+{n}\tMatches preceding exactly n times\n\
+{n,m}\tMatches preceding between n and m times"
 
 	IDS_WILDCARDHELP		"Wildcard Search\n\n\
 *\tMatches zero or more characters.\n\

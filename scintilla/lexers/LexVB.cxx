@@ -123,7 +123,7 @@ void ColouriseVBDoc(Sci_PositionU startPos, Sci_Position length, int initStyle, 
 				if (sc.ch == ']') { // bracketed [keyword] identifier
 					sc.Forward();
 				}
-				char s[128];
+				char s[64];
 				sc.GetCurrentLowered(s, sizeof(s));
 				const Sci_Position len = sc.LengthCurrent();
 				if (skipType) {
@@ -515,5 +515,5 @@ void ColouriseVBScriptDoc(Sci_PositionU startPos, Sci_Position length, int initS
 
 }
 
-LexerModule lmVisualBasic(SCLEX_VISUALBASIC, ColouriseVBNetDoc, "vb", FoldVBDoc);
-LexerModule lmVBScript(SCLEX_VBSCRIPT, ColouriseVBScriptDoc, "vbscript", FoldVBDoc);
+extern const LexerModule lmVisualBasic(SCLEX_VISUALBASIC, ColouriseVBNetDoc, "vb", FoldVBDoc);
+extern const LexerModule lmVBScript(SCLEX_VBSCRIPT, ColouriseVBScriptDoc, "vbscript", FoldVBDoc);

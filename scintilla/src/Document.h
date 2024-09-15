@@ -252,6 +252,12 @@ struct CharacterExtracted {
 	}
 };
 
+struct CharacterWideInfo {
+	unsigned int lenCharacters = 0;
+	unsigned int lenBytes = 0;
+	wchar_t buffer[2]{};
+};
+
 /**
  */
 class Document : PerLine, public Scintilla::IDocument, public Scintilla::ILoader, public Scintilla::IDocumentEditable {
@@ -427,6 +433,7 @@ public:
 	void EndUndoAction() noexcept {
 		cb.EndUndoAction();
 	}
+	int UndoSequenceDepth() const noexcept;
 	void AddUndoAction(Sci::Position token, bool mayCoalesce) {
 		cb.AddUndoAction(token, mayCoalesce);
 	}
@@ -580,7 +587,7 @@ public:
 		cb.Allocate(newSize);
 	}
 
-	CharacterExtracted ExtractCharacter(Sci::Position position) const noexcept;
+	void ExtractCharacter(Sci::Position position, CharacterWideInfo &charInfo) const noexcept;
 
 	bool IsWordStartAt(Sci::Position pos) const noexcept;
 	bool IsWordEndAt(Sci::Position pos) const noexcept;

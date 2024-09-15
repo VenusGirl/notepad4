@@ -642,12 +642,8 @@ LRESULT CALLBACK MainWndProc(HWND hwnd, UINT umsg, WPARAM wParam, LPARAM lParam)
 		PCOPYDATASTRUCT pcds = AsPointer<PCOPYDATASTRUCT>(lParam);
 
 		if (pcds->dwData == DATA_MATEPATH_PATHARG) {
-			LPWSTR lpsz = static_cast<LPWSTR>(NP2HeapAlloc(pcds->cbData));
-			memcpy(lpsz, pcds->lpData, pcds->cbData);
-
+			LPCWSTR lpsz = static_cast<LPCWSTR>(pcds->lpData);
 			DisplayPath(lpsz, IDS_ERR_CMDLINE);
-
-			NP2HeapFree(lpsz);
 		}
 	}
 	return TRUE;
@@ -798,8 +794,9 @@ LRESULT MsgCreate(HWND hwnd, WPARAM wParam, LPARAM lParam) noexcept {
 	hwndMain = hwnd;
 	g_uCurrentDPI = GetWindowDPI(hwnd);
 	HINSTANCE hInstance = (AsPointer<LPCREATESTRUCT>(lParam))->hInstance;
+	const DWORD dwExStyle = IsAppThemed() ? 0 : WS_EX_CLIENTEDGE;
 	hwndDirList = CreateWindowEx(
-					  WS_EX_CLIENTEDGE,
+					  dwExStyle,
 					  WC_LISTVIEW,
 					  nullptr,
 					  WS_DIRLIST,
@@ -809,10 +806,6 @@ LRESULT MsgCreate(HWND hwnd, WPARAM wParam, LPARAM lParam) noexcept {
 					  hInstance,
 					  nullptr);
 
-	if (IsAppThemed()) {
-		SetWindowExStyle(hwndDirList, GetWindowExStyle(hwndDirList) & ~WS_EX_CLIENTEDGE);
-		SetWindowPos(hwndDirList, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
-	}
 	InitWindowCommon(hwndDirList);
 
 	const DWORD dwDriveBoxStyle = bShowDriveBox ? (WS_DRIVEBOX | WS_VISIBLE) : WS_DRIVEBOX;
@@ -896,8 +889,6 @@ LRESULT MsgCreate(HWND hwnd, WPARAM wParam, LPARAM lParam) noexcept {
 //
 //
 void CreateBars(HWND hwnd, HINSTANCE hInstance) noexcept {
-	const BOOL bIsAppThemed = IsAppThemed();
-
 	constexpr DWORD dwToolbarStyle = WS_TOOLBAR | TBSTYLE_FLAT | CCS_ADJUSTABLE;
 	hwndToolbar = CreateWindowEx(0, TOOLBARCLASSNAME, nullptr, dwToolbarStyle,
 								 0, 0, 0, 0, hwnd, AsPointer<HMENU, ULONG_PTR>(IDC_TOOLBAR), hInstance, nullptr);
@@ -1029,6 +1020,7 @@ void CreateBars(HWND hwnd, HINSTANCE hInstance) noexcept {
 	rbi.himl   = nullptr;
 	SendMessage(hwndReBar, RB_SETBARINFO, 0, AsInteger<LPARAM>(&rbi));
 
+	const BOOL bIsAppThemed = IsAppThemed();
 	REBARBANDINFO rbBand;
 	rbBand.cbSize  = sizeof(REBARBANDINFO);
 	rbBand.fMask   = /*RBBIM_COLORS | RBBIM_TEXT | RBBIM_BACKGROUND | */
@@ -1099,18 +1091,19 @@ void MsgThemeChanged(HWND hwnd, WPARAM wParam, LPARAM lParam) noexcept {
 
 	HINSTANCE hInstance = GetWindowInstance(hwnd);
 
+	DWORD dwExStyle = GetWindowExStyle(hwndDirList);
 	if (IsAppThemed()) {
-		SetWindowExStyle(hwndDirList, GetWindowExStyle(hwndDirList) & ~WS_EX_CLIENTEDGE);
-		SetWindowPos(hwndDirList, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE);
+		dwExStyle &= ~WS_EX_CLIENTEDGE;
 		if (bFullRowSelect) {
 			SetExplorerTheme(hwndDirList);
 		} else {
 			SetListViewTheme(hwndDirList);
 		}
 	} else {
-		SetWindowExStyle(hwndDirList, GetWindowExStyle(hwndDirList) | WS_EX_CLIENTEDGE);
-		SetWindowPos(hwndDirList, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
+		dwExStyle |= WS_EX_CLIENTEDGE;
 	}
+	SetWindowExStyle(hwndDirList, dwExStyle);
+	SetWindowPos(hwndDirList, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE);
 
 	// recreate toolbar and statusbar
 	WCHAR chStatus[255];

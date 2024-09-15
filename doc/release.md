@@ -1,6 +1,9 @@
 💡Tips: To keep your current settings, do **NOT** replace *Notepad4.ini*, *matepath.ini* or any theme (INI) files with the bundled one, but please mind the breaking changes if any.
 
 ## Changes Since
+* Scintilla updated to 5, see https://www.scintilla.org/ScintillaHistory.html for the changes.
+* Lexer and API updates: .
+* Other bug fixes and improvements.
 
 ## Behavior Changes
 
@@ -10,12 +13,12 @@
 | Localization | Language | Architecture | Minimum System |
 |--|--|--|--|
 | en | English | ARM64 | 🟢Windows 10 on ARM |
-| fr-FR | French | ARM | 🔴legacy Windows RT (Windows 8 on ARM) |
+| fr | French | ARM | 🔴legacy Windows RT (Windows 8 on ARM) |
 | it | Italiano | AVX2 | 🟢64-bit Windows 7, Server 2008 R2 |
 | ja | 日本語 | x64 | 🟡legacy 64-bit Windows Vista, Server 2008 |
 | ko | 한국어 | Win32 | 🟠legacy Windows XP, Server 2003 |
 | zh-Hans | 中文 (简体) |
-| zh-Hant | 中文 (繁體) |
+| zh-Hant | 中文 (繁體) | Chocolatey | `choco install notepad4`
 | i18n | all above languages | winget | `winget install -e "Notepad4"` |
 | 한국어 | https://teus.me/Notepad4 | winget | `winget install zufuliu.notepad4` |
 

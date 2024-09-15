@@ -83,18 +83,8 @@ jobs:
 
     - name: Install v141_xp Toolset
       continue-on-error: true
-      shell: powershell
       run: |
-        Set-Location "C:\Program Files (x86)\Microsoft Visual Studio\Installer\"
-        $InstallPath = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise"
-        $WorkLoads = '--add Microsoft.VisualStudio.Component.WinXP'
-        $Arguments = ('/c', "vs_installer.exe", 'modify', '--installPath', "`"$InstallPath`"", $WorkLoads, '--quiet', '--norestart', '--nocache')
-        $process = Start-Process -FilePath cmd.exe -ArgumentList $Arguments -Wait -PassThru -WindowStyle Hidden
-        if ($process.ExitCode -eq 0) {
-            Write-Host "components have been successfully added"
-        } else {
-            Write-Host "components were not installed"
-        }
+        CALL "build\install_msvc.bat" v141_xp
 
     - name: MSVC x64 Release
       run: |
@@ -217,18 +207,8 @@ jobs:
 
     - name: Install v141_xp Toolset
       continue-on-error: true
-      shell: powershell
       run: |
-        Set-Location "C:\Program Files (x86)\Microsoft Visual Studio\Installer\"
-        $InstallPath = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise"
-        $WorkLoads = '--add Microsoft.VisualStudio.Component.WinXP'
-        $Arguments = ('/c', "vs_installer.exe", 'modify', '--installPath', "`"$InstallPath`"", $WorkLoads, '--quiet', '--norestart', '--nocache')
-        $process = Start-Process -FilePath cmd.exe -ArgumentList $Arguments -Wait -PassThru -WindowStyle Hidden
-        if ($process.ExitCode -eq 0) {
-            Write-Host "components have been successfully added"
-        } else {
-            Write-Host "components were not installed"
-        }
+        CALL "build\install_msvc.bat" v141_xp
 
     - name: Install LLVM
       run: |
@@ -290,31 +270,26 @@ jobs:
         CALL "build\install_mingw.bat" llvm
 
     - name: Clang x64 Release
-      continue-on-error: true
       run: |
         CALL "build\mingw\build.bat" llvm x86_64
         CALL "build\make_zip.bat" Clang x64 Release 1
 
     - name: Clang Win32 Release
-      continue-on-error: true
       run: |
         CALL "build\mingw\build.bat" llvm i686
         CALL "build\make_zip.bat" Clang Win32 Release 1
 
     - name: Clang AVX2 Release
-      continue-on-error: true
       run: |
         CALL "build\mingw\build.bat" llvm AVX2
         CALL "build\make_zip.bat" Clang AVX2 Release 1
 
     - name: Clang ARM64 Release
-      continue-on-error: true
       run: |
         CALL "build\mingw\build.bat" llvm aarch64
         CALL "build\make_zip.bat" Clang ARM64 Release 1
 
     - name: Clang ARM Release
-      continue-on-error: true
       run: |
         CALL "build\mingw\build.bat" llvm armv7
         CALL "build\make_zip.bat" Clang ARM Release 1
@@ -467,11 +442,13 @@ jobs:
         CALL "build\install_mingw.bat" i686
 
     - name: GCC Win32 Release
+      continue-on-error: true
       run: |
         CALL "build\mingw\build.bat" i686
         CALL "build\make_zip.bat" GCC Win32 Release 1
 
     - name: Clang Win32 Release
+      continue-on-error: true
       run: |
         CALL "build\mingw\build.bat" i686 Clang
         CALL "build\make_zip.bat" Clang Win32 Release 1

@@ -25,26 +25,38 @@
 #define NP2_FIND_REPLACE_LIMIT	2048
 #define NP2_LONG_LINE_LIMIT		4096
 
-//#define NP2_RegexDefaultFlags	(SCFIND_REGEXP | SCFIND_CXX11REGEX) // use std::regex
-#define NP2_RegexDefaultFlags	(SCFIND_REGEXP | SCFIND_POSIX) // use builtin regex
 #define NP2_InvalidSearchFlags	(-1)
 #define NP2_MarkAllMultiline	0x00001000
 #define NP2_MarkAllBookmark		0x00002000
 #define NP2_MarkAllSelectAll	0x00004000
 #define NP2_FromFindAll			0x00008000
 
+enum {
+	FindReplaceOption_None = 0,
+	FindReplaceOption_UseCxxRegex = 1,
+	FindReplaceOption_TransparentMode = 2,
+	FindReplaceOption_UseMonospacedFont = 4,
+	FindReplaceOption_FindAllBookmark = 8,
+	FindReplaceOption_Default = 2,
+
+	FindReplaceOption_CloseFind = 1,
+	FindReplaceOption_CloseReplace = 2,
+	FindReplaceOption_NoFindWrap = 4,
+	FindReplaceOption_BehaviorMask = 7,
+
+	FindReplaceOption_TransformBackslash = 8,
+	FindReplaceOption_WildcardSearch = 16,
+	FindReplaceOption_SearchMask = 24,
+};
+
 struct EDITFINDREPLACE {
+	HWND	hwnd;
+	UINT	fuFlags;
+	UINT	option;
 	char	szFind[512];
 	char	szReplace[512];
 	char	szFindUTF8[512 * kMaxMultiByteCount];
 	char	szReplaceUTF8[512 * kMaxMultiByteCount];
-	HWND	hwnd;
-	UINT	fuFlags;
-	bool	bTransformBS;
-	bool	bFindClose;
-	bool	bReplaceClose;
-	bool	bNoFindWrap;
-	bool	bWildcardSearch;
 };
 
 enum EditAlignMode {
@@ -132,9 +144,7 @@ bool	EditLoadFile(LPWSTR pszFile, EditFileIOStatus &status) noexcept;
 bool	EditSaveFile(HWND hwnd, LPCWSTR pszFile, int saveFlag, EditFileIOStatus &status) noexcept;
 
 void	EditReplaceMainSelection(Sci_Position cchText, LPCSTR pszText) noexcept;
-void	EditInvertCase() noexcept;
 void	EditMapTextCase(int menu) noexcept;
-void	EditSentenceCase() noexcept;
 
 void	EditURLEncode() noexcept;
 void	EditURLDecode() noexcept;
@@ -235,6 +245,14 @@ enum {
 	MarkerBitmask_Bookmark = 1 << MarkerNumber_Bookmark,
 };
 
+enum {
+	MarkOccurrences_None = 0,
+	MarkOccurrences_Enable = 1,
+	MarkOccurrences_MatchCase = 2,
+	MarkOccurrences_WholeWord = 4,
+	MarkOccurrences_Bookmark = 8,
+};
+
 struct EditMarkAll {
 	bool pending;
 	bool ignoreSelectionUpdate;
@@ -257,7 +275,7 @@ struct EditMarkAll {
 	void Start(BOOL bChanged, int findFlag, Sci_Position iSelCount, LPSTR text) noexcept;
 	void Continue(HANDLE timer) noexcept;
 	void Stop() noexcept;
-	void MarkAll(BOOL bChanged, bool matchCase, bool wholeWord, bool bookmark) noexcept;
+	void MarkAll(BOOL bChanged, int option) noexcept;
 };
 
 void EditToggleBookmarkAt(Sci_Position iPos) noexcept;
@@ -278,6 +296,7 @@ enum {
 	AutoCompleteScope_Default = 0xff,
 };
 enum {
+	AutoCompleteFillUpMask_None = 0,
 	AutoCompleteFillUpMask_Enter = 1,
 	AutoCompleteFillUpMask_Tab = 2,
 	AutoCompleteFillUpMask_Space = 4,
@@ -298,6 +317,7 @@ enum AutoInsertCharacter {
 	AutoInsertCharacter_Comma,
 };
 enum {
+	AutoInsertMask_None = 0,
 	AutoInsertMask_Parenthesis = 1,			// ()
 	AutoInsertMask_Brace = 2,				// {}
 	AutoInsertMask_SquareBracket = 4,		// []
@@ -324,17 +344,24 @@ enum {
 #define MIN_AUTO_COMPLETION_WORD_LENGTH			1
 #define MIN_AUTO_COMPLETION_NUMBER_LENGTH		0
 
+enum {
+	AutoCompletionOption_None = 0,
+	AutoCompletionOption_CloseTags = 1,
+	AutoCompletionOption_CompleteWord = 2,
+	AutoCompletionOption_ScanWordsInDocument = 4,
+	AutoCompletionOption_OnlyWordsInDocument = 8,
+	AutoCompletionOption_EnglishIMEModeOnly = 16,
+	AutoCompletionOption_Default = 7,
+};
+
 struct EditAutoCompletionConfig {
 	bool bIndentText;
-	bool bCloseTags;
-	bool bCompleteWord;
-	bool bScanWordsInDocument;
+	bool bIgnoreCase;
+	bool bLaTeXInputMethod;
+	int iCompleteOption;
 	int fCompleteScope;
 	int fScanWordScope;
 	UINT dwScanWordsTimeout;
-	bool bEnglistIMEModeOnly;
-	bool bIgnoreCase;
-	bool bLaTeXInputMethod;
 	UINT iVisibleItemCount;
 	int iMinWordLength;
 	int iMinNumberLength;
@@ -387,8 +414,8 @@ struct CallTipInfo {
 	Sci_Position endPos;
 	Sci_Position hexStart;
 	COLORREF currentColor;
-	//COLORREF backColor;
-	//COLORREF foreColor;
+	COLORREF backColor;
+	COLORREF foreColor;
 };
 void	EditShowCallTip(Sci_Position position) noexcept;
 void	EditClickCallTip(HWND hwnd) noexcept;

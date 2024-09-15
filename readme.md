@@ -51,7 +51,7 @@ Latest development builds (artifacts in Release configuration for each compiler 
 		* [C Standard Library](tools/lang/C.c), up to C2x.
 		* [C++ STL](tools/lang/CPP.cpp), up to C++20.
 	* [Cangjie (仓颉)](tools/lang/Cangjie.cj), up to June 2024.
-	* [CSS Style Sheet](tools/lang/CSS.css), up to July 2024.
+	* [CSS Style Sheet](tools/lang/CSS.css), up to September 2024.
 		* [SCSS Style Sheet](tools/lang/SCSS.scss), up to Dart Sass 1.50.
 		* [Less Style Sheet](tools/lang/Less.less), up to Less 4.1.
 		* [HSS Style Sheet](tools/lang/HSS.hss)
@@ -74,7 +74,7 @@ Latest development builds (artifacts in Release configuration for each compiler 
 	* [Groovy](tools/lang/Groovy.groovy), up to Groovy 5.0.
 	* [Haskell](tools/lang/Haskell.hs), up to GHC 9.6.
 	* [Haxe](tools/lang/Haxe.hx), up to Haxe 4.3.
-	* [HTML](tools/lang/html.html), up to [WHATWG](https://html.spec.whatwg.org/multipage/) July 2024. [Screenshots](https://github.com/zufuliu/notepad4/wiki/Screenshots#html)
+	* [HTML](tools/lang/html.html), up to [WHATWG](https://html.spec.whatwg.org/multipage/) September 2024. [Screenshots](https://github.com/zufuliu/notepad4/wiki/Screenshots#html)
 		* ASP
 		* ASP.NET
 		* JSP
@@ -125,7 +125,7 @@ Latest development builds (artifacts in Release configuration for each compiler 
 	* Shell Script
 		* [Bash](tools/lang/Bash.sh) likes (sh, bash, dash, ash, zsh, ksh), up to Bash 5.2. [Screenshots](https://github.com/zufuliu/notepad4/wiki/Screenshots#shell-script)
 		* [C Shell](tools/lang/CShell.csh) (csh, tcsh), up to tcsh 6.24.
-		* M4 Macro, limited support
+		* [M4 Macro](https://www.gnu.org/software/m4/) and [Autoconf](https://www.gnu.org/software/autoconf/)
 	* SQL Query
 		* [SQL Standard](tools/lang/SQL.sql), up to SQL:2016.
 		* [MySQL](tools/lang/MySQL.sql), up to MySQL 8.0, MariaDB 10.9.
@@ -159,6 +159,7 @@ Latest development builds (artifacts in Release configuration for each compiler 
 * Insert new GUID and current timestamps
 * Number conversion between decimal, hexadecimal, octal and binary
 * Display caret location and length of selected text in count of characters
+* Improved regex support with [Boost regex library](https://www.boost.org/doc/libs/release/libs/regex/doc/html/boost_regex/syntax/perl_syntax.html)
 * Improved support for NFO ANSI art
 * Support various [Windows system integration](https://github.com/zufuliu/notepad4/wiki/System-Integration)
 * Support high DPI display with HD version
@@ -196,7 +197,7 @@ Latest development builds (artifacts in Release configuration for each compiler 
 * [Scintilla's website](https://www.scintilla.org/)
 * [Build Notepad4 and matepath](https://github.com/zufuliu/notepad4/wiki/Build-Notepad4)
 * [Localization](https://github.com/zufuliu/notepad4/wiki/Localization)
-	* [French (France)](https://github.com/zufuliu/notepad4/tree/main/locale/fr-FR) by [@VoilierBleu](https://github.com/VoilierBleu)
+	* [French](https://github.com/zufuliu/notepad4/tree/main/locale/fr) by [@VoilierBleu](https://github.com/VoilierBleu)
 	* [Italiano](https://github.com/zufuliu/notepad4/tree/main/locale/it) by [@Matteo-Nigro](https://github.com/Matteo-Nigro)
 	* [日本語](https://github.com/zufuliu/notepad4/tree/main/locale/ja) by [@maboroshin](https://github.com/maboroshin)
 	* [中文 (繁體)](https://github.com/zufuliu/notepad4/tree/main/locale/zh-Hant)

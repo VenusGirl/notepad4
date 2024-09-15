@@ -164,6 +164,18 @@ enum class FontWeight {
 	Bold = 700,
 };
 
+enum class FontStretch {
+	UltraCondensed = 1,
+	ExtraCondensed = 2,
+	Condensed = 3,
+	SemiCondensed = 4,
+	Normal = 5,
+	SemiExpanded = 6,
+	Expanded = 7,
+	ExtraExpanded = 8,
+	UltraExpanded = 9,
+};
+
 enum class Element {
 	List = 0,
 	ListBack = 1,
@@ -275,10 +287,11 @@ enum class FindOption {
 	WholeWord = 0x2,
 	MatchCase = 0x4,
 	MatchToWordEnd = 0x8,
-	WordStart = 0x00100000,
-	RegExp = 0x00200000,
-	Posix = 0x00400000,
-	Cxx11RegEx = 0x00800000,
+	WordStart = 0x10,
+	RegExp = 0x20,
+	Posix = 0x40,
+	Cxx11RegEx = 0x80,
+	RegexDotAll = 0x100,
 };
 
 enum class ChangeHistoryOption {
@@ -289,8 +302,10 @@ enum class ChangeHistoryOption {
 };
 
 enum class NotificationPosition {
-	Bottomright = 0,
-	Center = 1,
+	None = 0,
+	Default = 1,
+	BottomRight = 2,
+	Center = 3,
 };
 
 enum class FoldLevel {
@@ -705,6 +720,7 @@ using sptr_t = intptr_t;
 constexpr Position InvalidPosition = (-1);
 constexpr int CpUtf8 = 65001;
 constexpr int MarkerMax = 31;
+constexpr int MaskHistory = 0x01E00000;
 constexpr int MaskFolders = 0xFE000000U;
 constexpr int MaxMargin = 4;
 constexpr int FontSizeMultiplier = 100;

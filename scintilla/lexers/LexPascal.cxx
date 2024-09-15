@@ -52,7 +52,7 @@ void ClassifyPascalWord(LexerWordList keywordLists, StyleContext &sc, int &curLi
 	const WordList &typewords = keywordLists[1];
 	const WordList &funwords = keywordLists[2];
 	const WordList &prcwords = keywordLists[3];
-	char s[128];
+	char s[64];
 	sc.GetCurrentLowered(s, sizeof(s));
 	if (typewords.InList(s)) {
 		sc.ChangeState(SCE_PAS_TYPE);
@@ -270,16 +270,14 @@ void ClassifyPascalPreprocessorFoldPoint(int &levelCurrent, int &lineFoldStateCu
 			lineFoldStateCurrent &= ~stateFoldInPreprocessor;
 		}
 		levelCurrent--;
-		if (levelCurrent < SC_FOLDLEVELBASE) {
-			levelCurrent = SC_FOLDLEVELBASE;
-		}
+		levelCurrent = sci::max(levelCurrent, SC_FOLDLEVELBASE);
 	}
 }
 
 void ClassifyPascalWordFoldPoint(const CharacterSet &setWord, int &levelCurrent, int &lineFoldStateCurrent,
 	Sci_Position startPos, Sci_PositionU endPos,
 	Sci_PositionU lastStart, Sci_PositionU currentPos, LexAccessor &styler) noexcept {
-	char s[128];
+	char s[16];
 
 	styler.GetRangeLowered(lastStart, currentPos + 1, s, sizeof(s));
 
@@ -328,7 +326,7 @@ void ClassifyPascalWordFoldPoint(const CharacterSet &setWord, int &levelCurrent,
 		bool ignoreKeyword = true;
 		Sci_Position j = lastStart - 1;
 		char ch = styler.SafeGetCharAt(j);
-		while ((j >= startPos) && (IsASpaceOrTab(ch) || ch == '\r' || ch == '\n' ||
+		while ((j >= startPos) && (IsASpace(ch) ||
 			IsStreamCommentStyle(styler.StyleAt(j)))) {
 			j--;
 			ch = styler.SafeGetCharAt(j);
@@ -360,9 +358,7 @@ void ClassifyPascalWordFoldPoint(const CharacterSet &setWord, int &levelCurrent,
 	} else if (StrEqual(s, "end")) {
 		lineFoldStateCurrent &= ~stateFoldInRecord;
 		levelCurrent--;
-		if (levelCurrent < SC_FOLDLEVELBASE) {
-			levelCurrent = SC_FOLDLEVELBASE;
-		}
+		levelCurrent = sci::max(levelCurrent, SC_FOLDLEVELBASE);
 	}
 }
 
@@ -434,4 +430,4 @@ void FoldPascalDoc(Sci_PositionU startPos, Sci_Position length, int initStyle, L
 
 }
 
-LexerModule lmPascal(SCLEX_PASCAL, ColourisePascalDoc, "pascal", FoldPascalDoc);
+extern const LexerModule lmPascal(SCLEX_PASCAL, ColourisePascalDoc, "pascal", FoldPascalDoc);

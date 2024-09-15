@@ -41,6 +41,14 @@ enum FileWatchingMode {
 	FileWatchingMode_AutoReload,
 };
 
+enum MatchTextFlag {
+	MatchTextFlag_None = 0,
+	MatchTextFlag_Default = 1,
+	MatchTextFlag_FindUp = 2,
+	MatchTextFlag_Regex = 4,
+	MatchTextFlag_TransformBS = 8,
+};
+
 //==== Data Type for WM_COPYDATA ==============================================
 #define DATA_NOTEPAD4_PARAMS 0xFB10
 struct NP2PARAMS {
@@ -57,6 +65,7 @@ struct NP2PARAMS {
 	int		iSrcEncoding;
 	int		flagSetEncoding;
 	int		flagSetEOLMode;
+	MatchTextFlag flagMatchText;
 	WCHAR wchData;
 };
 
@@ -75,9 +84,7 @@ struct NP2PARAMS {
 #define IDC_TOOLBAR			0xFB01
 #define IDC_REBAR			0xFB02
 #define IDC_EDIT			0xFB03
-#define IDC_EDITFRAME		0xFB04
 #define IDC_FILENAME		0xFB05
-#define IDC_REUSELOCK		0xFB06
 
 // submenu in popup menu, IDR_POPUPMENU
 #define IDP_POPUP_SUBMENU_EDIT	0
@@ -120,20 +127,6 @@ enum {
 #define ID_WATCHTIMER				0xA000	// file watch timer
 #define ID_PASTEBOARDTIMER			0xA001	// paste board timer
 #define ID_AUTOSAVETIMER			0xA002	// AutoSave timer
-
-#define REUSEWINDOWLOCKTIMEOUT		1000	// Reuse Window Lock Timeout
-
-// Settings Version
-enum {
-// No version
-NP2SettingsVersion_None = 0,
-/*
-1. `ZoomLevel` and `PrintZoom` changed from relative font size in point to absolute percentage.
-2. `HighlightCurrentLine` changed to outline frame of subline, regardless of any previous settings.
-*/
-NP2SettingsVersion_V1 = 1,
-NP2SettingsVersion_Current = NP2SettingsVersion_V1,
-};
 
 enum EscFunction {
 	EscFunction_None = 0,
@@ -191,9 +184,9 @@ void SnapToDefaultPos(HWND hwnd) noexcept;
 void ShowNotifyIcon(HWND hwnd, bool bAdd) noexcept;
 void SetNotifyIconTitle(HWND hwnd) noexcept;
 
-void ShowNotificationA(int notifyPos, LPCSTR lpszText) noexcept;
-void ShowNotificationW(int notifyPos, LPCWSTR lpszText) noexcept;
-void ShowNotificationMessage(int notifyPos, UINT uidMessage, ...) noexcept;
+void ShowNotificationA(WPARAM notifyPos, LPCSTR lpszText) noexcept;
+void ShowNotificationW(WPARAM notifyPos, LPCWSTR lpszText) noexcept;
+void ShowNotificationMessage(WPARAM notifyPos, UINT uidMessage, ...) noexcept;
 
 void InstallFileWatching(bool terminate) noexcept;
 void CALLBACK WatchTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime) noexcept;
@@ -263,7 +256,7 @@ enum FileSaveFlag {
 	FileSaveFlag_EndSession = 16,
 };
 
-bool FileIO(bool fLoad, LPWSTR pszFile, int flag, EditFileIOStatus &status) noexcept;
+bool FileIO(bool fLoad, LPWSTR pszFile, FileSaveFlag flag, EditFileIOStatus &status) noexcept;
 bool FileLoad(FileLoadFlag loadFlag, LPCWSTR lpszFile);
 bool FileSave(FileSaveFlag saveFlag) noexcept;
 BOOL OpenFileDlg(LPWSTR lpstrFile, int cchFile, LPCWSTR lpstrInitialDir) noexcept;
@@ -275,6 +268,7 @@ enum {
 	AutoSaveOption_Suspend = 2,
 	AutoSaveOption_Shutdown = 4,
 	AutoSaveOption_ManuallyDelete = 8,
+	AutoSaveOption_OverwriteCurrent = 16,
 	AutoSaveOption_Default = AutoSaveOption_Suspend | AutoSaveOption_Shutdown,
 	AutoSaveDefaultPeriod = 5000,
 };
